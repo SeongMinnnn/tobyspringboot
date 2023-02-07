@@ -1,13 +1,23 @@
 package tobyspring.helloboot;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import toby.helloboot.SimpleHelloService;
 
 import java.util.Objects;
 
+@RestController
 public class HelloController {
-    public String hello(String name){
-        SimpleHelloService helloService = new SimpleHelloService();
+    public final HelloService helloService;
 
-        return helloService.sayHello(Objects.requireNonNull(name)) ;
+    public HelloController(HelloService helloService) {
+        this.helloService = helloService;
+    }
+
+    @GetMapping("/hello")
+    public String hello(String name){
+        if(name == null || name.trim().length() == 0)throw new IllegalAccessException();
+
+        return helloService.sayHello(name) ;
     }
 }

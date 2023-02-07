@@ -22,4 +22,12 @@ public class HelloApiTest {
         //body Hello Spring
         Assertions.assertThat(res.getBody()).isEqualTo("Hello Spring");
     }
+    @Test
+    void failshelloApi(){
+        TestRestTemplate rest = new TestRestTemplate();
+
+        ResponseEntity<String> res = rest.getForEntity("http://localhost:8080/hello?name=", String.class);
+        //리턴 값을 없애고 서버 에러 화ㅏㄱ인
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
